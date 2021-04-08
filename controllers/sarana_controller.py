@@ -34,7 +34,7 @@ def get_sarana_all(db: Session):
         return db.query(Sarana).filter(Sarana.deleted_at == None).all()
     except Exception as e:
         print(e)
-        return None
+        return False
 
 def create_file(foto: UploadFile):
     global SARANA_PATH
@@ -60,7 +60,7 @@ def create_sarana(db: Session, sarana: SaranaCreate):
     except Exception as e:
         print(e)
         db.rollback()
-        return e
+        return False
 
 def update_sarana(db: Session, sarana: SaranaUpdate):
     db_sarana = db.query(Sarana).filter(Sarana.id == sarana.id, Sarana.deleted_at == None).first()
@@ -79,7 +79,7 @@ def update_sarana(db: Session, sarana: SaranaUpdate):
     except Exception as e:
         print(e)
         db.rollback()
-        return e
+        return False
 
 async def delete_sarana(db: Session, id: int):
     try:
@@ -91,7 +91,7 @@ async def delete_sarana(db: Session, id: int):
     except Exception as e:
         print(e)
         db.rollback()
-        return None
+        return False
     else:
         del db_sarana
 
@@ -99,8 +99,11 @@ def reset_sarana(db: Session):
     try:
         db.query(Sarana).delete()
         db.commit()
-    except Exception:
+        return "All Sarana have been deleted."
+    except Exception as e:
+        print(e)
         db.rollback()
+        return "There's an error on function reset_sarana"
 
 
 
@@ -116,4 +119,4 @@ def search_sarana(db: Session, key: str):
     except Exception as e:
         print(e)
         db.rollback()
-        return e
+        return False

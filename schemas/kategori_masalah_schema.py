@@ -11,7 +11,7 @@ class KategoriMasalahBase(BaseModel):
     _repr_hide = ['created_at', 'updated_at', 'deleted_at']
     kategori: str
 
-class KategoriMasalah(InstalasiBase):
+class KategoriMasalah(KategoriMasalahBase):
     id: int
 
 # class InstalasiInfo(InstalasiBase):
